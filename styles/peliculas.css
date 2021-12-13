@@ -1,0 +1,35 @@
+body {
+    background-color: #fbfbfb !important;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.center {
+    text-align: center;
+    display: flex;   
+    align-items: center;
+    flex-direction: column;
+}
+
+.layout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 1px;
+    margin-top: 10px;
+}
+
+.card-limits {    
+    height: 220px !important;
+    text-align: center;
+}
+
+.pelicula-body {
+    background-color: #fff;
+    min-height: 100vh;
+    padding: 0 2rem !important;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
