@@ -1,50 +1,109 @@
-let checkboxToday = document.getElementById("checkboxToday");
-let inputDateBeforeTo = document.getElementById("antesDe");
-let inputDateAfterTo = document.getElementById("despuesDe");
 
-let selectorLanguaje = document.getElementById("idioma");
-const languages = ["es", "en", "de"];
-let languageSelected = ""
+import { crearPelicula, editarPelicula, eliminarPelicula, getPeliculas } from "../services/fetchPelicula.js";
 
-let dateBeforeTo = "";
-let dateAfterTo = "";
+const formPelicula = document.getElementById("form-pelicula");
 
-inputDateBeforeTo.addEventListener("change", () => {
-    dateBeforeTo = inputDateBeforeTo.value;
-    console.log(dateBeforeTo);
+const btns = document.getElementById("container-card");
+
+const btnAll = document.getElementById("btn-all");
+
+let onEdit = false;
+let idEdit = -1;
+
+const peliculaTitulo = document.getElementById("pelicula-titulo");
+const peliculaSinopsis = document.getElementById("pelicula-sinopsis");
+const peliculaIdioma = document.getElementById("pelicula-idioma");
+const peliculaEstreno = document.getElementById("pelicula-estreno");
+
+formPelicula.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (onEdit) {    
+    let peliculaEditada = getValoresDelFormulario()
+    editarPelicula(idEdit, peliculaEditada)
+  } else {
+    
+    let peliculaNueva = getValoresDelFormulario()    
+    crearPelicula(peliculaNueva);
+  }
 });
 
-inputDateAfterTo.addEventListener("change", () => {
-    dateAfterTo = inputDateAfterTo.value;
-    console.log(dateAfterTo);
-});
+const getValoresDelFormulario = () => {
+  const peliculaNueva = {
+    titulo: peliculaTitulo.value,
+    sinopsis: peliculaSinopsis.value,
+    idioma: peliculaIdioma.value,
+    estreno: peliculaEstreno.value,
+  };
+ 
 
-selectorLanguaje.addEventListener("change", function () {
-    let languaje = selectorLanguaje.value;
-    switch (languaje) {        
-        case "1":
-            languageSelected = languages[0];
-            break;
-        case "2":
-            languageSelected = languages[1];
-            break;
-        case "3":
-            languageSelected = languages[2];
-            break;
-        default:
-            languageSelected = languages[0];
-            break;
+  peliculaTitulo.value = ""
+  peliculaSinopsis.value = ""
+  peliculaIdioma.value = ""
+  peliculaEstreno.value = ""
+
+  return peliculaNueva
+}
+
+btns.addEventListener("click", (e) => {
+  const { target } = e;
+
+  if (
+    target &&
+    target.nodeName == "A" &&
+    target.classList.contains("btn-eliminar")
+  ) {
+    idEdit = target.parentElement.id;
+    let eliminar = confirm("¿Estás seguro de eliminar esta pelicula?");
+    if (eliminar) {
+      eliminarPelicula(idEdit);
     }
-
-})
-
-checkboxToday.addEventListener("change", function () {    
-    if (checkboxToday.checked) {
-       
-        inputDateBeforeTo.setAttribute("disabled", "disabled");
-        inputDateAfterTo.setAttribute("disabled", "disabled");
+  }
+  if (
+    target &&
+    target.nodeName == "A" &&
+    target.classList.contains("btn-editar")
+  ) {
+    if (!onEdit) {
+      btnAll.innerText = "Editar";
+      target.innerText = "Cancelar";
+      onEdit = true;
+      idEdit = target.parentElement.id;
     } else {
-        inputDateBeforeTo.removeAttribute("disabled");
-        inputDateAfterTo.removeAttribute("disabled");
+      btnAll.innerText = "Crear";
+      target.innerText = "Editar";
+      onEdit = false;
+      idEdit = -1;
     }
+  }
 });
+
+
+const renderCard = (pelicula) => {
+   
+    let template = `
+    <div class="card shadow-sm p-3 mb-5 bg-dark bg-gradient rounded card-limits" id="container-card" style="width: 18rem;">
+        <div class="card-body text-white">
+            <h5 class="card-title"> ${pelicula.titulo}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${pelicula.idioma}</h6>
+            <p class="card-text"> ${pelicula.sinopsis}</p>
+            <p class="card-text">${pelicula.estreno}</p>         
+            <div class="row" id="${pelicula.id}">
+                <a class="btn btn-light col-sm-5 mx-2 btn-editar"> Editar</a>
+                <a class="btn btn-light col-sm-5 btn-eliminar">Eliminar </a>
+            </div>
+        </div>                    
+    </div>
+    `;
+
+
+    btns.innerHTML += template;
+}
+
+const renderPeliculas = () => {
+    const peliculas = getPeliculas()
+    peliculas.forEach((pelicula) => {
+        renderCard(pelicula);
+    });
+}
+
+renderPeliculas();
