@@ -29,10 +29,10 @@ formPelicula.addEventListener("submit", (e) => {
 
 const getValoresDelFormulario = () => {
   const peliculaNueva = {
-    titulo: peliculaTitulo.value,
+    title: peliculaTitulo.value,
     sinopsis: peliculaSinopsis.value,
-    idioma: peliculaIdioma.value,
-    estreno: peliculaEstreno.value,
+    language: peliculaIdioma.value,
+    released: peliculaEstreno.value,
   };
  
 
@@ -83,10 +83,10 @@ const renderCard = (pelicula) => {
     let template = `
     <div class="card shadow-sm p-3 mb-5 bg-dark bg-gradient rounded card-limits" id="container-card" style="width: 18rem;">
         <div class="card-body text-white">
-            <h5 class="card-title"> ${pelicula.titulo}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">${pelicula.idioma}</h6>
+            <h5 class="card-title"> ${pelicula.title}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${pelicula.language}</h6>
             <p class="card-text"> ${pelicula.sinopsis}</p>
-            <p class="card-text">${pelicula.estreno}</p>         
+            <p class="card-text">${pelicula.released}</p>         
             <div class="row" id="${pelicula.id}">
                 <a class="btn btn-light col-sm-5 mx-2 btn-editar"> Editar</a>
                 <a class="btn btn-light col-sm-5 btn-eliminar">Eliminar </a>

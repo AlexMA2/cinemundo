@@ -1,7 +1,7 @@
-const HOST = "http://localhost:8080";
+const HOST = "http://localhost:8080/food";
 
 const crearComida = (comida) => {
-    fetch(`${HOST}/comida`, {
+    fetch(`${HOST}/create`, {
         method: "POST",
         headers: {
         "Content-Type": "application/json",
@@ -11,7 +11,7 @@ const crearComida = (comida) => {
 };
 
 const eliminarComida = (id) => {
-    fetch(`${HOST}/comida/${id}`, {
+    fetch(`${HOST}/delete/${id}`, {
         method: "DELETE",
     });
 };
@@ -27,7 +27,7 @@ const editarComida = (id, comida) => {
 }
 
 const getComidas = () => {
-    return fetch(`${HOST}/comida`)
+    return fetch(`${HOST}/`)
     .then(res => res.json())
     .then(comidas => comidas);
 }

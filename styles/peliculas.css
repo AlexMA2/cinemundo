@@ -21,7 +21,7 @@ body {
 }
 
 .card-limits {    
-    height: 220px !important;
+    max-height: 300px !important;
     text-align: center;
 }
 
