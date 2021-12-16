@@ -100,10 +100,11 @@ const renderCard = (pelicula) => {
 }
 
 const renderPeliculas = () => {
-    const peliculas = getPeliculas()
-    peliculas.forEach((pelicula) => {
+    getPeliculas().then((peliculas) => {
+      peliculas.forEach((pelicula) => {
         renderCard(pelicula);
-    });
+      })
+    }); 
 }
 
 renderPeliculas();

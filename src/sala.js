@@ -97,10 +97,11 @@ const renderCard = (sala) => {
 }
 
 const renderSalas = () => {
-    const salas = getSalas()
-    salas.forEach((sala) => {
+    getSalas().then((salas) => {
+      salas.forEach((sala) => {
         renderCard(sala);
-    });
+      })
+    });  
 }
 
 renderSalas();
